@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <script type="module" defer src="./js/cadastro.js"></script>
+    <title>Tela de Cadastro</title>
+</head>
+
+<body>
+    <header>
+        <h1>CADASTRO DE CLIENTE</h1>
+        <img src="../img/logo.webp" alt="logo">
+    </header>
+    <main>
+        <div class="container">
+            <form action="submit" id="cadastroForm">
+                <div class="separador">
+                    <div>
+                        <label for="nome">Nome completo:</label><br>
+                        <input type="text" id="nome" name="nome" maxlength="200" required
+                            pattern="[A-Za-z\s]+ [A-Za-z\s]+">
+                    </div>
+                    <div>
+                        <label for="cpf">CPF:</label><br>
+                        <input type="text" id="cpf" name="cpf" required>
+                    </div>
+                    <div>
+                        <label for="dataNascimento">Data de Nascimento:</label><br>
+                        <input type="date" id="dataNascimento" name="dataNascimento" required>
+                    </div>
+                    <div class="none" id="responsavelCpf">
+                        <label class="none" id="labelResponsavelCpf" for="responsavelCpf">CPF do Responsável (se menor
+                            de idade):</label><br>
+                        <input class="none" type="text" id="inputResponsavelCpf" name="responsavelCpf">
+                    </div>
+                    <div>
+                        <label for="email">Email:</label><br>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div>
+                        <label for="celular">Celular:</label><br>
+                        <input type="tel" name="telefone" id="telefone" maxlength="15" />
+                    </div>
+                </div>
+                <div class="separador">
+                    <div>
+                        <label for="cep">CEP:</label><br>
+                        <input type="text" id="cep" name="cep" required pattern="\d{5}-?\d{3}">
+                    </div>
+                    <div>
+                        <label for="logradouro">Endereço/Logradouro:</label><br>
+                        <input type="text" id="logradouro" name="logradouro" required>
+                    </div>
+                    <div>
+                        <label for="numero">Número:</label><br>
+                        <input type="text" id="numero" name="numero" required>
+                    </div>
+                    <div>
+                        <label for="complemento">Complemento:</label><br>
+                        <input type="text" id="complemento" name="complemento">
+                    </div>
+                    <div>
+                        <label for="bairro">Bairro:</label><br>
+                        <input type="text" id="bairro" name="bairro" required>
+                    </div>
+                    <div>
+                        <label for="cidade">Cidade/Localidade:</label><br>
+                        <input type="text" id="cidade" name="cidade" required>
+                    </div>
+                    <div>
+                        <label for="uf">UF:</label><br>
+                        <input type="text" id="uf" name="uf" required maxlength="2">
+                    </div>
+                </div>
+                <div class="separador">
+                    <div>
+                        <label for="banco">Banco:</label><br>
+                        <select id="banco" name="banco" required>
+                            <option value="">Selecione o banco</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="separador cont-botao" >
+                    <button type="submit" id="salvar">Salvar</button>
+                    <button id="vizualizarCadastros">Vizualizar Cadastros</button>
+                </div>
+            </form>
+
+            <div id="mensagem"></div>
+
+
+
+
+        </div>
+
+
+    </main>
+    <footer>
+        <p>Todos os direitos Reservados | Softsay | Desenvolvido por Vinícius Monteiro</p>
+    </footer>
+</body>
+
+<script>
+</script>
+
+</html>

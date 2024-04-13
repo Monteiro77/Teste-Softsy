@@ -1,0 +1,44 @@
+main{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5%;
+}
+
+div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    width: 90%;
+}
+
+table{
+    width: 100%;
+}
+
+td{
+    text-align: center;
+}
+
+@media (max-width: 660px) {
+
+    footer{
+        display: none;
+    }
+
+    table{
+        font-size: .5rem;
+    }
+}
+
+@media (max-width: 415px) {
+
+    footer{
+        display: none;
+    }
+
+    table{
+        font-size: .5rem;
+    }
+}
