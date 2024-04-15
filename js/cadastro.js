@@ -163,7 +163,7 @@ document.getElementById('cep').addEventListener('blur', preencherFormulario)
 
 
 
-//Funç~]ao para carregar os bancos
+//Função para carregar os bancos
 import { getBancos } from './brasilapi.js';
 
 const carregarBancos = async function () {
@@ -184,63 +184,63 @@ window.onload = function () {
 
 
 // Função para salvar o cadastro
-
-
-
-btnSave.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    const nome = document.getElementById("nome").value;
-    const cpf = document.getElementById("cpf").value;
-    const dataNascimento = document.getElementById("dataNascimento").value.split('-').reverse().join('/');
-    const cpfResponsavel = document.getElementById("responsavelCpf").value;
-    const email = document.getElementById("email").value;
-    const celular = document.getElementById("telefone").value;
-    const cep = document.getElementById("cep").value;
-    const endereco = document.getElementById("logradouro").value;
-    const numero = document.getElementById("numero").value;
-    const complemento = document.getElementById("complemento").value;
-    const bairro = document.getElementById("bairro").value;
-    const cidade = document.getElementById("cidade").value;
-    const uf = document.getElementById("uf").value;
-    const banco = document.getElementById("banco").value;
-
-    // Validar campos obrigatórios
-    if (nome && cpf && dataNascimento && cep && endereco && numero && bairro && cidade && uf) {
-        const objetoCadastro = {
-            nome,
-            cpf,
-            dataNascimento,
-            cpfResponsavel,
-            email,
-            celular,
-            cep,
-            endereco,
-            numero,
-            complemento,
-            bairro,
-            cidade,
-            uf,
-            banco
-        };
-
-        console.log(objetoCadastro)
-
-        // Salvar objeto na sessão do navegador
-        let cadastros = JSON.parse(sessionStorage.getItem("cadastros")) || [];
-        cadastros.push(objetoCadastro);
-        sessionStorage.setItem("cadastros", JSON.stringify(cadastros));
-
-        mensagem.innerText = "Cadastro realizado com sucesso!";
-        mensagem.style.color = "green";
-
-        // Limpar campos do formulário
-        form.reset();
-    } else {
-        mensagem.innerText = "Por favor, preencha todos os campos obrigatórios!";
-        mensagem.style.color = "red";
+const salvarCadastro = function(event){
+   
+        event.preventDefault();
+    
+        const nome = document.getElementById("nome").value;
+        const cpf = document.getElementById("cpf").value;
+        const dataNascimento = document.getElementById("dataNascimento").value.split('-').reverse().join('/');
+        const cpfResponsavel = document.getElementById("responsavelCpf").value;
+        const email = document.getElementById("email").value;
+        const celular = document.getElementById("telefone").value;
+        const cep = document.getElementById("cep").value;
+        const endereco = document.getElementById("logradouro").value;
+        const numero = document.getElementById("numero").value;
+        const complemento = document.getElementById("complemento").value;
+        const bairro = document.getElementById("bairro").value;
+        const cidade = document.getElementById("cidade").value;
+        const uf = document.getElementById("uf").value;
+        const banco = document.getElementById("banco").value;
+    
+        if (nome && cpf && dataNascimento && cep && endereco && numero && bairro && cidade && uf) {
+            const objetoCadastro = {
+                nome,
+                cpf,
+                dataNascimento,
+                cpfResponsavel,
+                email,
+                celular,
+                cep,
+                endereco,
+                numero,
+                complemento,
+                bairro,
+                cidade,
+                uf,
+                banco
+            };
+    
+            console.log(objetoCadastro)
+    
+            let cadastros = JSON.parse(sessionStorage.getItem("cadastros")) || [];
+            cadastros.push(objetoCadastro);
+            sessionStorage.setItem("cadastros", JSON.stringify(cadastros));
+    
+            mensagem.classList.remove('none');
+            mensagem.innerText = "Cadastro realizado com sucesso!";
+            mensagem.style.color = "green";
+    
+           
+            form.reset();
+        } else {
+            mensagem.classList.remove('none');
+            mensagem.innerText = "Por favor, preencha todos os campos obrigatórios!";
+            mensagem.style.color = "red";
+        
     }
-});
+}
+btnSave.addEventListener("click", salvarCadastro);
 
 btnVizualizarCadastros.addEventListener('click', () => {
     window.location.href = "./pages/cadastros.html";
