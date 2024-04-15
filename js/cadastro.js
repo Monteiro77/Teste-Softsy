@@ -1,5 +1,11 @@
 'use strict'
 
+const mensagem = document.getElementById("mensagem");
+const inputCpf = document.getElementById("cpf");
+const form = document.getElementById("cadastroForm")
+const btnSave = document.getElementById("salvar");
+const btnVizualizarCadastros = document.getElementById("vizualizarCadastros");
+
 function getAge(dateString) {
     const today = new Date();
     const birthDate = new Date(dateString);
@@ -33,7 +39,7 @@ const getIdade = async function () {
 
 }
 
-document.getElementById('dataNascimento').addEventListener('blur', getIdade)
+document.getElementById('dataNascimento').addEventListener('blur', getIdade);
 
 //Mascara para telefone
 const handlePhone = (event) => {
@@ -49,7 +55,7 @@ const phoneMask = (value) => {
     return value
 }
 
-document.getElementById('telefone').addEventListener('keyup', handlePhone)
+document.getElementById('telefone').addEventListener('keyup', handlePhone);
 //Mascara para o cep
 
 const handleZipCode = (event) => {
@@ -63,7 +69,80 @@ const zipCodeMask = (value) => {
     value = value.replace(/(\d{5})(\d)/, '$1-$2')
     return value
 }
+
 document.getElementById('cep').addEventListener('keyup', handleZipCode)
+
+
+
+
+function validaCPF(cpf) {
+
+    cpf = document.getElementById("cpf").value;
+    var Soma = 0
+    var Resto
+    var status = true
+
+    var strCPF = String(cpf).replace(/[^\d]/g, '')
+
+    if (strCPF.length !== 11) {
+        status = false
+    }
+    if ([
+        '00000000000',
+        '11111111111',
+        '22222222222',
+        '33333333333',
+        '44444444444',
+        '55555555555',
+        '66666666666',
+        '77777777777',
+        '88888888888',
+        '99999999999',
+    ].indexOf(strCPF) !== -1) {
+        status = false
+    }
+
+    for ( var i = 1; i <= 9; i++)
+        Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+
+    Resto = (Soma * 10) % 11
+
+    if ((Resto == 10) || (Resto == 11))
+        Resto = 0
+
+    if (Resto != parseInt(strCPF.substring(9, 10))) {
+        status = false
+    }
+    Soma = 0
+
+    for (i = 1; i <= 10; i++)
+        Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i)
+
+    Resto = (Soma * 10) % 11
+
+    if ((Resto == 10) || (Resto == 11))
+        Resto = 0
+
+    if (Resto != parseInt(strCPF.substring(10, 11))) {
+        status = false        
+    }
+
+    if(status == false){
+        mensagem.innerText = "CPF Inválido"
+        mensagem.style.color = "red"
+        mensagem.classList.remove('none')
+    }else{
+        mensagem.classList.add('none')
+    }
+    
+
+    
+    
+}
+
+
+inputCpf.addEventListener('blur', validaCPF)
+
 
 // Função para buscar endereço a partir do CEP
 import { pesquisarCep } from './viacep.js'
@@ -105,12 +184,10 @@ window.onload = function () {
 
 
 // Função para salvar o cadastro
-const form = document.getElementById("cadastroForm")
-const btnSave = document.getElementById("salvar");
-const btnVizualizarCadastros = document.getElementById("vizualizarCadastros");
-const mensagem = document.getElementById("mensagem");
 
-  btnSave.addEventListener("click", function(event) {
+
+
+btnSave.addEventListener("click", function (event) {
     event.preventDefault();
 
     const nome = document.getElementById("nome").value;
@@ -130,41 +207,41 @@ const mensagem = document.getElementById("mensagem");
 
     // Validar campos obrigatórios
     if (nome && cpf && dataNascimento && cep && endereco && numero && bairro && cidade && uf) {
-      const objetoCadastro = {
-        nome,
-        cpf,
-        dataNascimento,
-        cpfResponsavel,
-        email,
-        celular,
-        cep,
-        endereco,
-        numero,
-        complemento,
-        bairro,
-        cidade,
-        uf,
-        banco
-      };
+        const objetoCadastro = {
+            nome,
+            cpf,
+            dataNascimento,
+            cpfResponsavel,
+            email,
+            celular,
+            cep,
+            endereco,
+            numero,
+            complemento,
+            bairro,
+            cidade,
+            uf,
+            banco
+        };
 
-      console.log(objetoCadastro)
+        console.log(objetoCadastro)
 
-      // Salvar objeto na sessão do navegador
-      let cadastros = JSON.parse(sessionStorage.getItem("cadastros")) || [];
-      cadastros.push(objetoCadastro);
-      sessionStorage.setItem("cadastros", JSON.stringify(cadastros));
+        // Salvar objeto na sessão do navegador
+        let cadastros = JSON.parse(sessionStorage.getItem("cadastros")) || [];
+        cadastros.push(objetoCadastro);
+        sessionStorage.setItem("cadastros", JSON.stringify(cadastros));
 
-      mensagem.innerText = "Cadastro realizado com sucesso!";
-      mensagem.style.color = "green";
+        mensagem.innerText = "Cadastro realizado com sucesso!";
+        mensagem.style.color = "green";
 
-      // Limpar campos do formulário
-      form.reset();
+        // Limpar campos do formulário
+        form.reset();
     } else {
-      mensagem.innerText = "Por favor, preencha todos os campos obrigatórios!";
-      mensagem.style.color = "red";
+        mensagem.innerText = "Por favor, preencha todos os campos obrigatórios!";
+        mensagem.style.color = "red";
     }
-  });
+});
 
-  btnVizualizarCadastros.addEventListener('click', () =>{
+btnVizualizarCadastros.addEventListener('click', () => {
     window.location.href = "./pages/cadastros.html";
-  })
+})
