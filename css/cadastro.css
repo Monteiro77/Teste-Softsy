@@ -65,6 +65,7 @@ select{
         flex-direction: column;
         height: 120vh;
         margin-top: 150px;
+        gap: 3%;
     }
     
     input{
@@ -80,6 +81,10 @@ select{
         display: none;
     }
 
-    
+    .separador div{
+        margin-top: 25px;
+    }
+
+
 
 }
