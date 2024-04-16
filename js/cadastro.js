@@ -6,6 +6,7 @@ const form = document.getElementById("cadastroForm")
 const btnSave = document.getElementById("salvar");
 const btnVizualizarCadastros = document.getElementById("vizualizarCadastros");
 
+//Função para pegar a idade do usuário
 function getAge(dateString) {
     const today = new Date();
     const birthDate = new Date(dateString);
@@ -20,19 +21,43 @@ function getAge(dateString) {
 }
 
 
-const getIdade = async function () {
-    const anoNascimento = document.getElementById('dataNascimento').value
+const getIdade = function () {
+
+    const divResponsavelCpf = document.getElementById('responsavelCpf')
+    const labelResponsavelCpf = document.getElementById('labelResponsavelCpf')
+    const inputResponsavelCpf = document.getElementById('inputResponsavelCpf')
+
+    const dataAtual = moment();
+
+    const anoNascimento = moment(document.getElementById('dataNascimento').value)
 
     const idade = parseInt(getAge(anoNascimento));
 
-
-    if (idade < 18) {
-        const divResponsavelCpf = document.getElementById('responsavelCpf')
-        const labelResponsavelCpf = document.getElementById('labelResponsavelCpf')
-        const inputResponsavelCpf = document.getElementById('inputResponsavelCpf')
+    console.log(anoNascimento.isAfter(dataAtual, 'day'))
+    if (idade < 18 && anoNascimento.isAfter(dataAtual, 'day')) {
+        mensagem.classList.remove("none")
+        mensagem.innerText = "Data de nascimento inválida!"
+        mensagem.style.color = "red"
+        divResponsavelCpf.classList.add('none')
+        labelResponsavelCpf.classList.add('none')
+        inputResponsavelCpf.classList.add('none')
+    } else if (idade >= 99) {
+        mensagem.classList.remove("none")
+        mensagem.innerText = "Data de nascimento inválida!"
+        mensagem.style.color = "red"
+        divResponsavelCpf.classList.add('none')
+        labelResponsavelCpf.classList.add('none')
+        inputResponsavelCpf.classList.add('none')
+    } else if (idade < 18) {
         divResponsavelCpf.classList.remove('none')
         labelResponsavelCpf.classList.remove('none')
         inputResponsavelCpf.classList.remove('none')
+        mensagem.classList.add("none")
+    }else{
+        divResponsavelCpf.classList.add('none')
+        labelResponsavelCpf.classList.add('none')
+        inputResponsavelCpf.classList.add('none')
+        mensagem.classList.add("none")
     }
 
     return idade
@@ -102,7 +127,7 @@ function validaCPF(cpf) {
         status = false
     }
 
-    for ( var i = 1; i <= 9; i++)
+    for (var i = 1; i <= 9; i++)
         Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
 
     Resto = (Soma * 10) % 11
@@ -124,25 +149,20 @@ function validaCPF(cpf) {
         Resto = 0
 
     if (Resto != parseInt(strCPF.substring(10, 11))) {
-        status = false        
+        status = false
     }
 
-    if(status == false){
+    if (status == false) {
         mensagem.innerText = "CPF Inválido"
         mensagem.style.color = "red"
         mensagem.classList.remove('none')
-    }else{
+    } else {
         mensagem.classList.add('none')
     }
-    
 
-    
-    
 }
 
-
 inputCpf.addEventListener('blur', validaCPF)
-
 
 // Função para buscar endereço a partir do CEP
 import { pesquisarCep } from './viacep.js'
@@ -184,60 +204,60 @@ window.onload = function () {
 
 
 // Função para salvar o cadastro
-const salvarCadastro = function(event){
-   
-        event.preventDefault();
-    
-        const nome = document.getElementById("nome").value;
-        const cpf = document.getElementById("cpf").value;
-        const dataNascimento = document.getElementById("dataNascimento").value.split('-').reverse().join('/');
-        const cpfResponsavel = document.getElementById("responsavelCpf").value;
-        const email = document.getElementById("email").value;
-        const celular = document.getElementById("telefone").value;
-        const cep = document.getElementById("cep").value;
-        const endereco = document.getElementById("logradouro").value;
-        const numero = document.getElementById("numero").value;
-        const complemento = document.getElementById("complemento").value;
-        const bairro = document.getElementById("bairro").value;
-        const cidade = document.getElementById("cidade").value;
-        const uf = document.getElementById("uf").value;
-        const banco = document.getElementById("banco").value;
-    
-        if (nome && cpf && dataNascimento && cep && endereco && numero && bairro && cidade && uf) {
-            const objetoCadastro = {
-                nome,
-                cpf,
-                dataNascimento,
-                cpfResponsavel,
-                email,
-                celular,
-                cep,
-                endereco,
-                numero,
-                complemento,
-                bairro,
-                cidade,
-                uf,
-                banco
-            };
-    
-            console.log(objetoCadastro)
-    
-            let cadastros = JSON.parse(sessionStorage.getItem("cadastros")) || [];
-            cadastros.push(objetoCadastro);
-            sessionStorage.setItem("cadastros", JSON.stringify(cadastros));
-    
-            mensagem.classList.remove('none');
-            mensagem.innerText = "Cadastro realizado com sucesso!";
-            mensagem.style.color = "green";
-    
-           
-            form.reset();
-        } else {
-            mensagem.classList.remove('none');
-            mensagem.innerText = "Por favor, preencha todos os campos obrigatórios!";
-            mensagem.style.color = "red";
-        
+const salvarCadastro = function (event) {
+
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const cpf = document.getElementById("cpf").value;
+    const dataNascimento = document.getElementById("dataNascimento").value.split('-').reverse().join('/');
+    const cpfResponsavel = document.getElementById("responsavelCpf").value;
+    const email = document.getElementById("email").value;
+    const celular = document.getElementById("telefone").value;
+    const cep = document.getElementById("cep").value;
+    const endereco = document.getElementById("logradouro").value;
+    const numero = document.getElementById("numero").value;
+    const complemento = document.getElementById("complemento").value;
+    const bairro = document.getElementById("bairro").value;
+    const cidade = document.getElementById("cidade").value;
+    const uf = document.getElementById("uf").value;
+    const banco = document.getElementById("banco").value;
+
+    if (nome && cpf && dataNascimento && cep && endereco && numero && bairro && cidade && uf && banco) {
+        const objetoCadastro = {
+            nome,
+            cpf,
+            dataNascimento,
+            cpfResponsavel,
+            email,
+            celular,
+            cep,
+            endereco,
+            numero,
+            complemento,
+            bairro,
+            cidade,
+            uf,
+            banco
+        };
+
+        console.log(objetoCadastro)
+
+        let cadastros = JSON.parse(sessionStorage.getItem("cadastros")) || [];
+        cadastros.push(objetoCadastro);
+        sessionStorage.setItem("cadastros", JSON.stringify(cadastros));
+
+        mensagem.classList.remove('none');
+        mensagem.innerText = "Cadastro realizado com sucesso!";
+        mensagem.style.color = "green";
+
+
+        form.reset();
+    } else {
+        mensagem.classList.remove('none');
+        mensagem.innerText = "Por favor, preencha todos os campos obrigatórios!";
+        mensagem.style.color = "red";
+
     }
 }
 btnSave.addEventListener("click", salvarCadastro);
